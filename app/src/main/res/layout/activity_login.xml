@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20sp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="300sp"
+            android:layout_height="300sp"
+            android:layout_gravity="center"
+            android:id="@+id/loginIcon"
+            android:transitionName="@string/login_icon_tran"
+            app:srcCompat="@drawable/ic_credit_card"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            android:textStyle="bold"
+            android:id="@+id/loginTitle"
+            android:transitionName="@string/login_title_tran"
+            android:textColor="@color/black"
+            android:textSize="45sp"
+            android:layout_marginBottom="10sp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/loginEmailText"
+            android:hint="Email"
+            android:layout_marginTop="5sp"
+            app:boxStrokeWidth="0sp"
+            app:startIconDrawable="@drawable/ic_mail"
+            android:transitionName="@string/login_email_tran"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:inputType="textEmailAddress"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/loginPasswordText"
+            android:hint="Password"
+            app:boxStrokeWidth="0sp"
+            android:transitionName="@string/login_password_tran"
+            app:startIconDrawable="@drawable/ic_lock"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:inputType="textPassword"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:background="#00000000"
+            android:layout_gravity="right"
+            android:layout_marginVertical="10sp"
+            android:id="@+id/forgot_password_btn"
+            android:textColor="@color/theme2"
+            android:onClick="forgetPassword"
+            android:textAlignment="textEnd"
+            android:text="Forgot password?"
+            tools:ignore="RtlCompat" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/loginBtn"
+            android:background="@drawable/login_btn_bg"
+            android:backgroundTint="@color/theme2"
+            android:text="Continue"
+            android:textColor="@color/white"
+            android:transitionName="@string/login_btn_tran"
+            android:textAllCaps="false"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="0sp"
+                android:layout_height="0.3sp"
+                android:layout_marginStart="10sp"
+                android:layout_marginEnd="10sp"
+                android:background="@android:color/darker_gray"
+                app:layout_constraintBottom_toBottomOf="@+id/OrTextView"
+                app:layout_constraintEnd_toStartOf="@+id/OrTextView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/OrTextView" />
+
+            <TextView
+                android:id="@+id/OrTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20sp"
+                android:text="OR"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:layout_width="0sp"
+                android:layout_height="0.3sp"
+                android:layout_gravity="center_vertical"
+                android:background="@android:color/darker_gray"
+                android:layout_marginStart="10sp"
+                android:layout_marginEnd="10sp"
+                app:layout_constraintBottom_toBottomOf="@+id/OrTextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/OrTextView"
+                app:layout_constraintTop_toTopOf="@+id/OrTextView" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="50sp"
+            android:onClick="signInWithGoogle"
+            android:id="@+id/googleSignInBtn"
+            android:background="@drawable/signin_google_bg">
+
+            <TextView
+                android:id="@+id/loginWithGoogleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Login with Google"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_google"
+                android:padding="10sp"
+                android:layout_marginEnd="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/loginWithGoogleText"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60sp"
+            android:orientation="horizontal"
+            android:layout_marginTop="5sp"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:id="@+id/newUserText"
+                android:transitionName="@string/login_new_user_tran"
+                android:text="New User? "/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:onClick="register"
+                android:textStyle="bold"
+                android:id="@+id/registerText"
+                android:transitionName="@string/login_register_tran"
+                android:textColor="@color/theme2"
+                android:text="Register"/>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

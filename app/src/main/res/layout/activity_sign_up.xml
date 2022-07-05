@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SignUpActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20sp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_back_arrow"
+            android:onClick="back"
+            android:padding="5dp"
+            android:background="@drawable/back_btn_ripple_affect"
+            app:tint="@color/theme2" />
+
+        <ImageView
+            android:layout_width="300sp"
+            android:layout_height="300sp"
+            android:layout_gravity="center"
+            android:transitionName="@string/login_icon_tran"
+            app:srcCompat="@drawable/ic_credit_card"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sign up"
+            android:textStyle="bold"
+            android:transitionName="@string/login_title_tran"
+            android:textColor="@color/black"
+            android:textSize="45sp"
+            android:layout_marginBottom="10sp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/signUpNameText"
+            android:hint="Full name"
+            app:boxStrokeWidth="0sp"
+            app:startIconDrawable="@drawable/ic_user"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:inputType="text"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/signUpEmailText"
+            android:hint="Email"
+            app:boxStrokeWidth="0sp"
+            app:startIconDrawable="@drawable/ic_mail"
+            android:transitionName="@string/login_email_tran"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:inputType="textEmailAddress"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/signUpPasswordText"
+            android:hint="Password"
+            app:boxStrokeWidth="0sp"
+            app:startIconDrawable="@drawable/ic_lock"
+            app:passwordToggleEnabled="true"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:inputType="textPassword"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/signUpConfirmPasswordText"
+            android:hint="Confirm password"
+            app:boxStrokeWidth="0sp"
+            app:startIconDrawable="@drawable/ic_lock"
+            app:passwordToggleEnabled="true"
+            android:transitionName="@string/login_password_tran"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:inputType="textPassword"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/loginBtn"
+            android:background="@drawable/login_btn_bg"
+            android:backgroundTint="@color/theme2"
+            android:text="Continue"
+            android:transitionName="@string/login_btn_tran"
+            android:layout_marginTop="20sp"
+            android:textAllCaps="false"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60sp"
+            android:orientation="horizontal"
+            android:layout_marginTop="5sp"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:transitionName="@string/login_new_user_tran"
+                android:text="Joined us before? "/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:onClick="login"
+                android:transitionName="@string/login_register_tran"
+                android:textColor="@color/theme2"
+                android:text="Login"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
