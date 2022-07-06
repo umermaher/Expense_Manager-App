@@ -1,92 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
 
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="20sp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="20sp">
 
         <ImageView
+            android:id="@+id/loginIcon"
             android:layout_width="300sp"
             android:layout_height="300sp"
             android:layout_gravity="center"
-            android:id="@+id/loginIcon"
             android:transitionName="@string/login_icon_tran"
-            app:srcCompat="@drawable/ic_credit_card"/>
+            app:srcCompat="@drawable/ic_credit_card" />
 
 
         <TextView
+            android:id="@+id/loginTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10sp"
             android:text="Login"
-            android:textStyle="bold"
-            android:id="@+id/loginTitle"
-            android:transitionName="@string/login_title_tran"
             android:textColor="@color/black"
             android:textSize="45sp"
-            android:layout_marginBottom="10sp"/>
+            android:textStyle="bold"
+            android:transitionName="@string/login_title_tran" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/loginEmailText"
-            android:hint="Email"
-            android:layout_marginTop="5sp"
-            app:boxStrokeWidth="0sp"
-            app:startIconDrawable="@drawable/ic_mail"
-            android:transitionName="@string/login_email_tran"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:inputType="textEmailAddress"/>
-        </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/loginPasswordText"
-            android:hint="Password"
+            android:layout_marginTop="5sp"
+            android:hint="Email"
+            android:transitionName="@string/login_email_tran"
             app:boxStrokeWidth="0sp"
-            android:transitionName="@string/login_password_tran"
-            app:startIconDrawable="@drawable/ic_lock"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
+            app:startIconDrawable="@drawable/ic_mail">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:inputType="textPassword"/>
+                android:inputType="textEmailAddress" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/loginPasswordText"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Password"
+            app:passwordToggleEnabled="true"
+            android:transitionName="@string/login_password_tran"
+            app:boxStrokeWidth="0sp"
+            app:startIconDrawable="@drawable/ic_lock">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:ems="15"
+                android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/forgot_password_btn"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:background="#00000000"
             android:layout_gravity="right"
             android:layout_marginVertical="10sp"
-            android:id="@+id/forgot_password_btn"
-            android:textColor="@color/theme2"
+            android:background="#00000000"
             android:onClick="forgetPassword"
-            android:textAlignment="textEnd"
             android:text="Forgot password?"
+            android:textAlignment="textEnd"
+            android:textColor="@color/theme2"
             tools:ignore="RtlCompat" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/loginBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/loginBtn"
             android:background="@drawable/login_btn_bg"
             android:backgroundTint="@color/theme2"
             android:text="Continue"
+            android:textAllCaps="false"
             android:textColor="@color/white"
-            android:transitionName="@string/login_btn_tran"
-            android:textAllCaps="false"/>
+            android:transitionName="@string/login_btn_tran" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -109,9 +125,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="20sp"
+                android:gravity="center"
                 android:text="OR"
                 android:textSize="16sp"
-                android:gravity="center"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -122,9 +138,9 @@
                 android:layout_width="0sp"
                 android:layout_height="0.3sp"
                 android:layout_gravity="center_vertical"
-                android:background="@android:color/darker_gray"
                 android:layout_marginStart="10sp"
                 android:layout_marginEnd="10sp"
+                android:background="@android:color/darker_gray"
                 app:layout_constraintBottom_toBottomOf="@+id/OrTextView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/OrTextView"
@@ -132,11 +148,11 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/googleSignInBtn"
             android:layout_width="match_parent"
             android:layout_height="50sp"
-            android:onClick="signInWithGoogle"
-            android:id="@+id/googleSignInBtn"
-            android:background="@drawable/signin_google_bg">
+            android:background="@drawable/signin_google_bg"
+            android:onClick="signInWithGoogle">
 
             <TextView
                 android:id="@+id/loginWithGoogleText"
@@ -153,9 +169,9 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_google"
-                android:padding="10sp"
                 android:layout_marginEnd="20sp"
+                android:padding="10sp"
+                android:src="@drawable/ic_google"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/loginWithGoogleText"
                 app:layout_constraintStart_toStartOf="parent"
@@ -165,27 +181,41 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="60sp"
-            android:orientation="horizontal"
             android:layout_marginTop="5sp"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="horizontal">
+
             <TextView
+                android:id="@+id/newUserText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="New User? "
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:id="@+id/newUserText"
-                android:transitionName="@string/login_new_user_tran"
-                android:text="New User? "/>
+                android:transitionName="@string/login_new_user_tran" />
+
             <TextView
+                android:id="@+id/registerText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="17sp"
                 android:onClick="register"
-                android:textStyle="bold"
-                android:id="@+id/registerText"
-                android:transitionName="@string/login_register_tran"
+                android:text="Register"
                 android:textColor="@color/theme2"
-                android:text="Register"/>
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:transitionName="@string/login_register_tran" />
         </LinearLayout>
     </LinearLayout>
-</ScrollView>
+    </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/loginPb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/theme2"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

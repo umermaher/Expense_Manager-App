@@ -102,7 +102,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/loginBtn"
+            android:id="@+id/signUpBtn"
             android:background="@drawable/login_btn_bg"
             android:backgroundTint="@color/theme2"
             android:text="Continue"
