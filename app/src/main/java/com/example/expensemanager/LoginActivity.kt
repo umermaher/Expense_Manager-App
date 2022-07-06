@@ -6,31 +6,23 @@ import android.os.Bundle
 import android.view.View
 import android.util.Pair
 import android.app.ActivityOptions
-import android.util.Log
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
 import com.example.expensemanager.databinding.ActivityLoginBinding
-import com.example.expensemanager.repositories.UserRepository
+import com.example.expensemanager.utils.getUserViewModel
 import com.example.expensemanager.utils.validateEmail
 import com.example.expensemanager.utils.validatePassword
 import com.example.expensemanager.viewmodels.UserViewModel
-import com.example.expensemanager.viewmodels.UserViewModelProviderFactory
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
     private var _binding:ActivityLoginBinding?=null
@@ -51,15 +43,10 @@ class LoginActivity : AppCompatActivity() {
 
         configureGoogleSignIn()
 
-        val userRepository= UserRepository()
-        val newsViewModelProviderFactory= UserViewModelProviderFactory(userRepository)
-        viewModel = ViewModelProvider(this,newsViewModelProviderFactory)[UserViewModel::class.java]
+        viewModel = getUserViewModel(this)
 
         binding.loginBtn.setOnClickListener {
             customSignIn()
-        }
-        binding.loginPasswordText.setOnClickListener{
-            binding.loginPasswordText.passwordVisibilityToggleRequested(true)
         }
     }
 
@@ -82,8 +69,18 @@ class LoginActivity : AppCompatActivity() {
             test2 -> return
             else -> {}
         }
+        val email=binding.loginEmailText.editText!!.text.toString()
+        val password=binding.loginPasswordText.editText!!.text.toString()
 
-        
+        viewModel.handleLoginTask(email,password)
+        viewModel.signInUpTask.observe(this) {
+            if(it.isSuccessful)
+                updateUI(it.result.user)
+            else{
+                Toast.makeText(this,"Login Failed: ${it.exception}!",Toast.LENGTH_LONG).show()
+                binding.loginPb.visibility = View.GONE
+            }
+        }
     }
 
     fun signInWithGoogle(view: View) {
@@ -96,6 +93,7 @@ class LoginActivity : AppCompatActivity() {
         val currentUser = auth.currentUser
         updateUI(currentUser)
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when(requestCode){
@@ -109,11 +107,11 @@ class LoginActivity : AppCompatActivity() {
 
     private fun firebaseAuthWithGoogle(task: Task<GoogleSignInAccount>) {
         viewModel.handleGoogleSignInTask(task)
-        viewModel.googleSignInTask.observe(this){
+        viewModel.signInUpTask.observe(this){
             if(it.isSuccessful){
                 updateUI(it.result.user)
             }else{
-                Snackbar.make(binding.root,"Login Failed!",Snackbar.LENGTH_SHORT).show()
+                Toast.makeText(this,"Login Failed: ${it.exception}!",Toast.LENGTH_LONG).show()
                 binding.loginPb.visibility=View.GONE
             }
         }

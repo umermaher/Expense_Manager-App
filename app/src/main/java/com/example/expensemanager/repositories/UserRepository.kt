@@ -15,8 +15,18 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class UserRepository {
-    val auth= Firebase.auth
+    val mAuth= Firebase.auth
 
+    suspend fun handleSignUpTask(signUpTask: MutableLiveData<Task<AuthResult>>,email:String,password:String){
+        mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener {
+            signUpTask.postValue(it)
+        }
+    }
+    suspend fun handleLoginTask(signInUpTask: MutableLiveData<Task<AuthResult>>, email: String, password: String) {
+        mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener {
+            signInUpTask.postValue(it)
+        }
+    }
     suspend fun handleGoogleSignInTask(
         completedTask: Task<GoogleSignInAccount>,
         googleSignInTask: MutableLiveData<Task<AuthResult>>
@@ -32,7 +42,7 @@ class UserRepository {
 
     private fun firebaseAuthWithGoogle(idToken: String, googleSignInTask: MutableLiveData<Task<AuthResult>>) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
-        val auth = auth.signInWithCredential(credential).addOnCompleteListener {
+        val auth = mAuth.signInWithCredential(credential).addOnCompleteListener {
             googleSignInTask.postValue(it)
         }
     }
