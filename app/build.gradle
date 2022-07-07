@@ -56,6 +56,8 @@ dependencies {
     // Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.2'
+    /* coroutines support for firebase operations */
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.2'
 
     // Coroutine Lifecycle Scopes
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0"
@@ -64,4 +66,5 @@ dependencies {
     // Navigation Components
     implementation "androidx.navigation:navigation-fragment-ktx:2.5.0"
     implementation "androidx.navigation:navigation-ui-ktx:2.5.0"
+
 }

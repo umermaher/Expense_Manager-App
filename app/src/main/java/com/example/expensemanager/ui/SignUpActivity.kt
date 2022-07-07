@@ -1,24 +1,19 @@
-package com.example.expensemanager
+package com.example.expensemanager.ui
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
 import com.example.expensemanager.databinding.ActivitySignUpBinding
-import com.example.expensemanager.repositories.UserRepository
+import com.example.expensemanager.models.User
 import com.example.expensemanager.utils.getUserViewModel
 import com.example.expensemanager.utils.validateEmail
 import com.example.expensemanager.utils.validateFullName
 import com.example.expensemanager.utils.validatePassword
 import com.example.expensemanager.viewmodels.UserViewModel
-import com.example.expensemanager.viewmodels.UserViewModelProviderFactory
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_sign_up.view.*
 
 class SignUpActivity : AppCompatActivity() {
     private var _binding:ActivitySignUpBinding?=null
@@ -67,6 +62,8 @@ class SignUpActivity : AppCompatActivity() {
 
         viewModel.signInUpTask.observe(this){
             if(it.isSuccessful){
+                val firebaseUser=it.result.user
+                viewModel.addUser(User(firebaseUser!!.uid,email,name))
                 updateUI(it.result.user)
             }else{
                 Toast.makeText(this,"Login Failed: ${it.exception}!", Toast.LENGTH_LONG).show()
@@ -78,7 +75,7 @@ class SignUpActivity : AppCompatActivity() {
     private fun updateUI(user: FirebaseUser?) {
         if(user!=null){
             binding.signUpPb.visibility=View.GONE
-            startActivity(Intent(this,MainActivity::class.java))
+            startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
     }

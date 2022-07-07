@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Expense Manager</string>
-    
-<!--    login and signup transitions-->
+
+    <!--    login and signup transitions-->
     <string name="login_icon_tran">login_icon_tran</string>
     <string name="login_title_tran">login_title_tran</string>
     <string name="login_email_tran">login_email_tran</string>
@@ -10,4 +10,6 @@
     <string name="login_new_user_tran">login_new_user_tran</string>
     <string name="login_register_tran">login_register_tran</string>
     <string name="your_web_client_id">521810552194-ln9urp91tdjfrd0oami29fh8in41m1le.apps.googleusercontent.com</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

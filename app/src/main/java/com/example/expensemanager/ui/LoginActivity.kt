@@ -1,4 +1,4 @@
-package com.example.expensemanager
+package com.example.expensemanager.ui
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -7,7 +7,9 @@ import android.view.View
 import android.util.Pair
 import android.app.ActivityOptions
 import android.widget.Toast
+import com.example.expensemanager.R
 import com.example.expensemanager.databinding.ActivityLoginBinding
+import com.example.expensemanager.models.User
 import com.example.expensemanager.utils.getUserViewModel
 import com.example.expensemanager.utils.validateEmail
 import com.example.expensemanager.utils.validatePassword
@@ -17,12 +19,13 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.Task
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.coroutines.*
+import kotlinx.coroutines.tasks.await
+import kotlin.coroutines.CoroutineContext
 
 class LoginActivity : AppCompatActivity() {
     private var _binding:ActivityLoginBinding?=null
@@ -61,7 +64,9 @@ class LoginActivity : AppCompatActivity() {
         auth= Firebase.auth
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     private fun customSignIn() {
+        binding.loginPb.visibility=View.VISIBLE
         val test1= validateEmail(binding.loginEmailText)
         val test2= validatePassword(binding.loginPasswordText)
         when(false){
@@ -78,7 +83,7 @@ class LoginActivity : AppCompatActivity() {
                 updateUI(it.result.user)
             else{
                 Toast.makeText(this,"Login Failed: ${it.exception}!",Toast.LENGTH_LONG).show()
-                binding.loginPb.visibility = View.GONE
+                hidePb()
             }
         }
     }
@@ -98,32 +103,54 @@ class LoginActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         when(requestCode){
             RC_SIGN_IN -> {
-                binding.loginPb.visibility=View.VISIBLE
                 val task = GoogleSignIn.getSignedInAccountFromIntent(data)
                 firebaseAuthWithGoogle(task)
             }
         }
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     private fun firebaseAuthWithGoogle(task: Task<GoogleSignInAccount>) {
+        binding.loginPb.visibility=View.VISIBLE
         viewModel.handleGoogleSignInTask(task)
         viewModel.signInUpTask.observe(this){
             if(it.isSuccessful){
-                updateUI(it.result.user)
+
+                val firebaseUser=it.result.user
+                firebaseUser?.let {
+
+                    GlobalScope.launch {
+
+                        val user = try{
+                            viewModel.getUserById(it.uid).await().toObject(User::class.java)!!
+                        }catch (e:Exception){
+                            val user=User(it.uid,it.email!!,it.displayName!!,it.photoUrl.toString())
+                            viewModel.addUser(user)
+                            user
+                        }
+                        withContext(Dispatchers.Main){
+                            Toast.makeText(this@LoginActivity,user.displayName,Toast.LENGTH_LONG).show()
+                            updateUI(firebaseUser)
+                        }
+                    }
+                }
+
             }else{
                 Toast.makeText(this,"Login Failed: ${it.exception}!",Toast.LENGTH_LONG).show()
-                binding.loginPb.visibility=View.GONE
+                hidePb()
             }
         }
     }
 
     private fun updateUI(currentUser: FirebaseUser?) {
         if(currentUser!=null){
-            binding.loginPb.visibility=View.GONE
-            startActivity(Intent(this,MainActivity::class.java))
+            hidePb()
+            startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
     }
+
+    private fun hidePb() { binding.loginPb.visibility=View.GONE }
 
     fun forgetPassword(view: View) {}
     fun register(view: View) {

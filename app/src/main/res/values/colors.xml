@@ -10,4 +10,6 @@
     <color name="theme1">#B546C8</color>
 <!--    <color name="theme2">#2B2B2B</color>-->
     <color name="theme2">#37474f</color>
+    <color name="red">#FF0000</color>
+    <color name="green">#00FF00</color>
 </resources>

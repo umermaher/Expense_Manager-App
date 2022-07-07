@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".ui.LoginActivity">
 
 
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:overScrollMode="never"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,8 +26,8 @@
 
         <ImageView
             android:id="@+id/loginIcon"
-            android:layout_width="300sp"
-            android:layout_height="300sp"
+            android:layout_width="250sp"
+            android:layout_height="250sp"
             android:layout_gravity="center"
             android:transitionName="@string/login_icon_tran"
             app:srcCompat="@drawable/ic_credit_card" />
