@@ -10,6 +10,7 @@ import android.widget.Toast
 import com.example.expensemanager.R
 import com.example.expensemanager.databinding.ActivityLoginBinding
 import com.example.expensemanager.models.User
+import com.example.expensemanager.utils.PrefsData
 import com.example.expensemanager.utils.getUserViewModel
 import com.example.expensemanager.utils.validateEmail
 import com.example.expensemanager.utils.validatePassword
@@ -46,7 +47,7 @@ class LoginActivity : AppCompatActivity() {
 
         configureGoogleSignIn()
 
-        viewModel = getUserViewModel(this)
+        viewModel = getUserViewModel(this,application)
 
         binding.loginBtn.setOnClickListener {
             customSignIn()
@@ -79,8 +80,10 @@ class LoginActivity : AppCompatActivity() {
 
         viewModel.handleLoginTask(email,password)
         viewModel.signInUpTask.observe(this) {
-            if(it.isSuccessful)
+            if(it.isSuccessful) {
+                it.result.user?.displayName?.let { it1 -> PrefsData.saveUserName(this, it1) }
                 updateUI(it.result.user)
+            }
             else{
                 Toast.makeText(this,"Login Failed: ${it.exception}!",Toast.LENGTH_LONG).show()
                 hidePb()
@@ -129,7 +132,8 @@ class LoginActivity : AppCompatActivity() {
                             user
                         }
                         withContext(Dispatchers.Main){
-                            Toast.makeText(this@LoginActivity,user.displayName,Toast.LENGTH_LONG).show()
+//                            Toast.makeText(this@LoginActivity,user.displayName,Toast.LENGTH_LONG).show()
+                            PrefsData.saveUserName(this@LoginActivity,user.displayName)
                             updateUI(firebaseUser)
                         }
                     }

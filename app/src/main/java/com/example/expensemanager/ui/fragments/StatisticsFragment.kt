@@ -1,4 +1,4 @@
-package com.example.expensemanager.ui
+package com.example.expensemanager.ui.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

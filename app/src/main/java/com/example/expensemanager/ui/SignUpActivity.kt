@@ -7,10 +7,7 @@ import android.view.View
 import android.widget.Toast
 import com.example.expensemanager.databinding.ActivitySignUpBinding
 import com.example.expensemanager.models.User
-import com.example.expensemanager.utils.getUserViewModel
-import com.example.expensemanager.utils.validateEmail
-import com.example.expensemanager.utils.validateFullName
-import com.example.expensemanager.utils.validatePassword
+import com.example.expensemanager.utils.*
 import com.example.expensemanager.viewmodels.UserViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -26,7 +23,7 @@ class SignUpActivity : AppCompatActivity() {
         _binding=ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel = getUserViewModel(this)
+        viewModel = getUserViewModel(this,application)
 
         binding.signUpBtn.setOnClickListener {
             signUp()
@@ -64,6 +61,7 @@ class SignUpActivity : AppCompatActivity() {
             if(it.isSuccessful){
                 val firebaseUser=it.result.user
                 viewModel.addUser(User(firebaseUser!!.uid,email,name))
+                PrefsData.saveUserName(this,name)
                 updateUI(it.result.user)
             }else{
                 Toast.makeText(this,"Login Failed: ${it.exception}!", Toast.LENGTH_LONG).show()

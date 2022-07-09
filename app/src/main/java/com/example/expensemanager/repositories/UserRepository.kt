@@ -51,9 +51,15 @@ class UserRepository {
 
     fun getUserById(uid:String): Task<DocumentSnapshot> = usersCollection.document(uid).get()
 
-    suspend fun addUser(user: User) {
-        user?.let {
-            usersCollection.document(user.uid).set(user)
+    suspend fun addUser(user: User) = usersCollection.document(user.uid).set(user)
+
+    fun getCurrentUser(): Task<DocumentSnapshot> = usersCollection.document(mAuth.uid!!).get()
+    fun updateUser(user: User,task:MutableLiveData<Boolean>) {
+        usersCollection.document(user.uid).set(user).addOnSuccessListener {
+            task.postValue(true)
+        }.addOnFailureListener {
+            task.postValue(false)
         }
     }
+
 }

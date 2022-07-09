@@ -3,13 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/umerm/AndroidStudioProjects/ExpenseManager/app/src/main/res/drawable/allocate_text_bg.xml" value="0.131" />
         <entry key="..\:/Users/umerm/AndroidStudioProjects/ExpenseManager/app/src/main/res/drawable/back_btn_ripple_affect.xml" value="0.1595" />
         <entry key="..\:/Users/umerm/AndroidStudioProjects/ExpenseManager/app/src/main/res/drawable/ic_add.xml" value="0.185" />
         <entry key="..\:/Users/umerm/AndroidStudioProjects/ExpenseManager/app/src/main/res/drawable/ic_credit_card.xml" value="0.1635" />
+        <entry key="..\:/Users/umerm/AndroidStudioProjects/ExpenseManager/app/src/main/res/drawable/ic_done.xml" value="0.1" />
         <entry key="..\:/Users/umerm/AndroidStudioProjects/ExpenseManager/app/src/main/res/drawable/ic_user.xml" value="0.185" />
         <entry key="..\:/Users/umerm/AndroidStudioProjects/ExpenseManager/app/src/main/res/drawable/login_btn_bg.xml" value="0.1635" />
         <entry key="..\:/Users/umerm/AndroidStudioProjects/ExpenseManager/app/src/main/res/drawable/signin_google_bg.xml" value="0.1635" />
-        <entry key="..\:/Users/umerm/AndroidStudioProjects/ExpenseManager/app/src/main/res/layout/activity_add_transaction.xml" value="0.18115942028985507" />
+        <entry key="..\:/Users/umerm/AndroidStudioProjects/ExpenseManager/app/src/main/res/layout/activity_add_transaction.xml" value="0.25" />
         <entry key="..\:/Users/umerm/AndroidStudioProjects/ExpenseManager/app/src/main/res/layout/activity_empty.xml" value="0.18115942028985507" />
         <entry key="..\:/Users/umerm/AndroidStudioProjects/ExpenseManager/app/src/main/res/layout/activity_login.xml" value="0.16" />
         <entry key="..\:/Users/umerm/AndroidStudioProjects/ExpenseManager/app/src/main/res/layout/activity_main.xml" value="0.1802536231884058" />
@@ -18,6 +20,7 @@
         <entry key="..\:/Users/umerm/AndroidStudioProjects/ExpenseManager/app/src/main/res/layout/fragment_profile.xml" value="0.18115942028985507" />
         <entry key="..\:/Users/umerm/AndroidStudioProjects/ExpenseManager/app/src/main/res/layout/fragment_statistics.xml" value="0.18115942028985507" />
         <entry key="..\:/Users/umerm/AndroidStudioProjects/ExpenseManager/app/src/main/res/menu/nav_view_menu.xml" value="0.2140625" />
+        <entry key="..\:/Users/umerm/AndroidStudioProjects/ExpenseManager/app/src/main/res/menu/trans_menu.xml" value="0.14" />
       </map>
     </option>
   </component>

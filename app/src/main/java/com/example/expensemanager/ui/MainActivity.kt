@@ -10,6 +10,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.expensemanager.R
 import com.example.expensemanager.databinding.ActivityMainBinding
 import com.example.expensemanager.utils.InternetConnectivityLiveData
+import com.example.expensemanager.utils.getUserViewModel
+import com.example.expensemanager.viewmodels.UserViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -27,7 +29,7 @@ class MainActivity : AppCompatActivity() {
     private fun checkingAndMonitoringInternet() {
         val connectivityLiveData= InternetConnectivityLiveData(this)
         //below condition is written to check the internet for the first time as the livedata hasn't contain postValue.
-        if(!connectivityLiveData.hasInternetConnection()) applyMsgAnim(AnimationUtils.loadAnimation(this, R.anim.net_msg_from_top),View.VISIBLE)
+        if(!getUserViewModel(this,application).hasInternetConnection()) applyMsgAnim(AnimationUtils.loadAnimation(this, R.anim.net_msg_from_top),View.VISIBLE)
         // below livedata observance is for monitoring network connection
         connectivityLiveData.observe(this) {
             if (it == false)

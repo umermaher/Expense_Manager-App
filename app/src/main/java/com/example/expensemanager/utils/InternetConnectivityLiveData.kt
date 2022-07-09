@@ -2,9 +2,7 @@ package com.example.expensemanager.utils
 
 import android.content.Context
 import android.net.ConnectivityManager
-import android.net.ConnectivityManager.*
 import android.net.Network
-import android.net.NetworkCapabilities
 import android.net.NetworkCapabilities.*
 import android.net.NetworkRequest
 import android.os.Build
@@ -77,28 +75,5 @@ class InternetConnectivityLiveData(private val context: Context): LiveData<Boole
                 false
             }
         }
-    }
-    fun hasInternetConnection():Boolean{
-        val connectivityManager=context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            val activeNetwork= connectivityManager.activeNetwork ?: return false
-            val networkCapabilities=connectivityManager.getNetworkCapabilities(activeNetwork) ?: return false
-            return when{
-                networkCapabilities.hasTransport(TRANSPORT_WIFI) -> true
-                networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-                networkCapabilities.hasTransport(TRANSPORT_ETHERNET) -> true
-                else -> false
-            }
-        }else{
-            connectivityManager.activeNetworkInfo?.run {
-                return when(type){
-                    TYPE_WIFI -> true
-                    TYPE_MOBILE -> true
-                    TYPE_ETHERNET -> true
-                    else -> true
-                }
-            }
-        }
-        return false
     }
 }
