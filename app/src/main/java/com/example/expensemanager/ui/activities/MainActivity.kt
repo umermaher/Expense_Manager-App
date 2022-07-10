@@ -1,4 +1,4 @@
-package com.example.expensemanager.ui
+package com.example.expensemanager.ui.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -31,11 +31,12 @@ class MainActivity : AppCompatActivity() {
         //below condition is written to check the internet for the first time as the livedata hasn't contain postValue.
         if(!getUserViewModel(this,application).hasInternetConnection()) applyMsgAnim(AnimationUtils.loadAnimation(this, R.anim.net_msg_from_top),View.VISIBLE)
         // below livedata observance is for monitoring network connection
-        connectivityLiveData.observe(this) {
-            if (it == false)
+        connectivityLiveData.observe(this) { hasInternet ->
+            if (hasInternet == false)
                 applyMsgAnim(AnimationUtils.loadAnimation(this, R.anim.net_msg_from_top),View.VISIBLE)
-            else
-                applyMsgAnim( AnimationUtils.loadAnimation(this, R.anim.net_msg_to_top), View.GONE)
+            else {
+                applyMsgAnim(AnimationUtils.loadAnimation(this, R.anim.net_msg_to_top), View.GONE)
+            }
         }
     }
 

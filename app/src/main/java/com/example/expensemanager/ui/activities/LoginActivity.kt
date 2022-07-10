@@ -1,4 +1,4 @@
-package com.example.expensemanager.ui
+package com.example.expensemanager.ui.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -26,7 +26,6 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
-import kotlin.coroutines.CoroutineContext
 
 class LoginActivity : AppCompatActivity() {
     private var _binding:ActivityLoginBinding?=null
@@ -80,10 +79,8 @@ class LoginActivity : AppCompatActivity() {
 
         viewModel.handleLoginTask(email,password)
         viewModel.signInUpTask.observe(this) {
-            if(it.isSuccessful) {
-                it.result.user?.displayName?.let { it1 -> PrefsData.saveUserName(this, it1) }
+            if(it.isSuccessful)
                 updateUI(it.result.user)
-            }
             else{
                 Toast.makeText(this,"Login Failed: ${it.exception}!",Toast.LENGTH_LONG).show()
                 hidePb()
@@ -116,27 +113,30 @@ class LoginActivity : AppCompatActivity() {
     private fun firebaseAuthWithGoogle(task: Task<GoogleSignInAccount>) {
         binding.loginPb.visibility=View.VISIBLE
         viewModel.handleGoogleSignInTask(task)
-        viewModel.signInUpTask.observe(this){
+        viewModel.signInUpTask.observe(this){ it ->
             if(it.isSuccessful){
 
                 val firebaseUser=it.result.user
-                firebaseUser?.let {
+                firebaseUser?.let { user ->
 
-                    GlobalScope.launch {
+                    PrefsData.saveUserName(this@LoginActivity,user.displayName!!)
+                    updateUI(firebaseUser)
 
-                        val user = try{
-                            viewModel.getUserById(it.uid).await().toObject(User::class.java)!!
-                        }catch (e:Exception){
-                            val user=User(it.uid,it.email!!,it.displayName!!,it.photoUrl.toString())
-                            viewModel.addUser(user)
-                            user
-                        }
-                        withContext(Dispatchers.Main){
-//                            Toast.makeText(this@LoginActivity,user.displayName,Toast.LENGTH_LONG).show()
-                            PrefsData.saveUserName(this@LoginActivity,user.displayName)
-                            updateUI(firebaseUser)
-                        }
-                    }
+//                    GlobalScope.launch {
+//
+//                        val user = try{
+//                            viewModel.getUserById(it.uid).await().toObject(User::class.java)!!
+//                        }catch (e:Exception){
+//                            val user=User(it.uid,it.email!!,it.displayName!!,it.photoUrl.toString())
+//                            viewModel.addUser(user)
+//                            user
+//                        }
+//                        withContext(Dispatchers.Main){
+////                            Toast.makeText(this@LoginActivity,user.displayName,Toast.LENGTH_LONG).show()
+//                            PrefsData.saveUserName(this@LoginActivity,user.displayName)
+//                            updateUI(firebaseUser)
+//                        }
+//                    }
                 }
 
             }else{

@@ -28,7 +28,6 @@ import kotlin.coroutines.suspendCoroutine
 class UserViewModel(app: Application, private val userRepository: UserRepository): AndroidViewModel(app){
     var signInUpTask:MutableLiveData<Task<AuthResult>> = MutableLiveData()
     var updateTask:MutableLiveData<Boolean> = MutableLiveData()
-    var currentUser:MutableLiveData<User> = MutableLiveData()
 
     fun handleGoogleSignInTask(completedTask: Task<GoogleSignInAccount>) = viewModelScope.launch {
         userRepository.handleGoogleSignInTask(completedTask,signInUpTask)

@@ -15,13 +15,13 @@
         android:theme="@style/Theme.ExpenseManager"
         tools:targetApi="31">
         <activity
-            android:name=".ui.AddTransactionActivity"
+            android:name=".ui.activities.AddTransactionActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.SignUpActivity"
+            android:name=".ui.activities.SignUpActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.LoginActivity"
+            android:name=".ui.activities.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,7 +30,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.activities.MainActivity"
             android:exported="true" />
     </application>
 

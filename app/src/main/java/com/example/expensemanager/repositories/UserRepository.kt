@@ -2,7 +2,7 @@ package com.example.expensemanager.repositories
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.example.expensemanager.ui.LoginActivity
+import com.example.expensemanager.ui.activities.LoginActivity
 import com.example.expensemanager.models.User
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
@@ -13,6 +13,8 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.*
+import kotlinx.coroutines.tasks.await
 
 class UserRepository {
     val mAuth= Firebase.auth
@@ -42,10 +44,31 @@ class UserRepository {
         }
     }
 
-    private fun firebaseAuthWithGoogle(idToken: String, googleSignInTask: MutableLiveData<Task<AuthResult>>) {
+    @OptIn(DelicateCoroutinesApi::class)
+    private suspend fun firebaseAuthWithGoogle(idToken: String, googleSignInTask: MutableLiveData<Task<AuthResult>>) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
-        mAuth.signInWithCredential(credential).addOnCompleteListener {
-            googleSignInTask.postValue(it)
+        mAuth.signInWithCredential(credential).addOnCompleteListener { task->
+            if(task.isSuccessful){
+                val user=task.result.user
+                if(user!=null) {
+                    GlobalScope.launch {
+                        try {
+                            val model = getUserById(user.uid).await().toObject(User::class.java)!!
+                        } catch (e: Exception) {
+                            val model = User(
+                                user.uid,
+                                user.email!!,
+                                user.displayName!!,
+                                user.photoUrl.toString()
+                            )
+                            addUser(model)
+                        }
+                        withContext(Dispatchers.Main) {
+                            googleSignInTask.postValue(task)
+                        }
+                    }
+                }
+            }
         }
     }
 

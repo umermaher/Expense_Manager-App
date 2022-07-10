@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="5sp"
+    android:layout_margin="10sp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Laptops"
+                android:id="@+id/transNameTv"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="5sp"
+                android:layout_marginStart="10sp"/>
+
+            <TextView
+                android:id="@+id/transAmountTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5sp"
+                android:text="100"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/transNameTv"
+                app:layout_constraintTop_toBottomOf="@id/transNameTv" />
+
+            <TextView
+                android:id="@+id/transCreatedAtTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="just now"
+                android:paddingBottom="6sp"
+                android:layout_marginTop="1dp"
+                app:layout_constraintStart_toStartOf="@+id/transAmountTv"
+                app:layout_constraintTop_toBottomOf="@+id/transAmountTv" />
+
+            <ImageView
+                android:layout_width="25sp"
+                android:layout_height="25sp"
+                android:layout_margin="10sp"
+                android:id="@+id/transTypeImage"
+                android:src="@drawable/dot_bg"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

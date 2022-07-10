@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.example.expensemanager.databinding.FragmentProfileBinding
-import com.example.expensemanager.ui.LoginActivity
+import com.example.expensemanager.ui.activities.LoginActivity
 import com.example.expensemanager.utils.PrefsData
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase

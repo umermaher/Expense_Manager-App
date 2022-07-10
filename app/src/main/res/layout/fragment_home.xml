@@ -31,11 +31,13 @@
                 android:textColor="@color/black"
                 android:textSize="40sp"
                 android:layout_marginTop="25sp"
-                android:layout_marginHorizontal="20sp"/>
+                android:layout_marginHorizontal="20sp"
+                android:layout_marginBottom="5sp"/>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:cardElevation="3sp"
                 android:layout_margin="10sp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -117,11 +119,16 @@
 
             </androidx.cardview.widget.CardView>
 
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/homeSwipeRefresh">
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/homeRv"
-                android:layout_marginHorizontal="10sp"/>
+                android:overScrollMode="never"/>
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

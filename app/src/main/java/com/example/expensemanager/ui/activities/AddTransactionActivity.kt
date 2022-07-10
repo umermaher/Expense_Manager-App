@@ -1,4 +1,4 @@
-package com.example.expensemanager.ui
+package com.example.expensemanager.ui.activities
 
 import android.app.Activity
 import android.content.Intent
@@ -14,7 +14,6 @@ import com.example.expensemanager.models.Transaction
 import com.example.expensemanager.models.User
 import com.example.expensemanager.utils.*
 import com.example.expensemanager.viewmodels.UserViewModel
-import kotlinx.android.synthetic.main.activity_add_transaction.*
 import nl.bryanderidder.themedtogglebuttongroup.SelectAnimation
 
 class AddTransactionActivity : AppCompatActivity() {
@@ -109,7 +108,8 @@ class AddTransactionActivity : AppCompatActivity() {
         if(!typeSelected)
             return false
         if(binding.allocateForEditText.text.isBlank() || binding.amountEditText.text.isBlank()
-            || binding.amountEditText.text.length < MIN_TRANSACTION_LENGTH)
+            || binding.amountEditText.text.length < MIN_TRANSACTION_LENGTH
+        )
             return false
         return true
     }

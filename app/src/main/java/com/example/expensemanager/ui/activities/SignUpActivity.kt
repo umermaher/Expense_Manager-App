@@ -1,4 +1,4 @@
-package com.example.expensemanager.ui
+package com.example.expensemanager.ui.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -9,13 +9,11 @@ import com.example.expensemanager.databinding.ActivitySignUpBinding
 import com.example.expensemanager.models.User
 import com.example.expensemanager.utils.*
 import com.example.expensemanager.viewmodels.UserViewModel
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
 class SignUpActivity : AppCompatActivity() {
     private var _binding:ActivitySignUpBinding?=null
     private val binding get() = _binding!!
-    private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var viewModel: UserViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
