@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/Users/umerm/AndroidStudioProjects/ExpenseManager/app/src/main/res/drawable/allocate_text_bg.xml" value="0.131" />
         <entry key="..\:/Users/umerm/AndroidStudioProjects/ExpenseManager/app/src/main/res/drawable/back_btn_ripple_affect.xml" value="0.1595" />
+        <entry key="..\:/Users/umerm/AndroidStudioProjects/ExpenseManager/app/src/main/res/drawable/bottom_sheet_rounded_bg.xml" value="0.144" />
         <entry key="..\:/Users/umerm/AndroidStudioProjects/ExpenseManager/app/src/main/res/drawable/dot_bg.xml" value="0.1375" />
         <entry key="..\:/Users/umerm/AndroidStudioProjects/ExpenseManager/app/src/main/res/drawable/dot_bg_2.xml" value="0.1375" />
         <entry key="..\:/Users/umerm/AndroidStudioProjects/ExpenseManager/app/src/main/res/drawable/ic_add.xml" value="0.185" />
@@ -15,13 +16,15 @@
         <entry key="..\:/Users/umerm/AndroidStudioProjects/ExpenseManager/app/src/main/res/drawable/signin_google_bg.xml" value="0.1635" />
         <entry key="..\:/Users/umerm/AndroidStudioProjects/ExpenseManager/app/src/main/res/layout/activity_add_transaction.xml" value="0.25" />
         <entry key="..\:/Users/umerm/AndroidStudioProjects/ExpenseManager/app/src/main/res/layout/activity_empty.xml" value="0.18115942028985507" />
-        <entry key="..\:/Users/umerm/AndroidStudioProjects/ExpenseManager/app/src/main/res/layout/activity_login.xml" value="0.16" />
+        <entry key="..\:/Users/umerm/AndroidStudioProjects/ExpenseManager/app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="..\:/Users/umerm/AndroidStudioProjects/ExpenseManager/app/src/main/res/layout/activity_main.xml" value="0.1802536231884058" />
         <entry key="..\:/Users/umerm/AndroidStudioProjects/ExpenseManager/app/src/main/res/layout/activity_sign_up.xml" value="0.15" />
+        <entry key="..\:/Users/umerm/AndroidStudioProjects/ExpenseManager/app/src/main/res/layout/change_password_bs.xml" value="0.2" />
         <entry key="..\:/Users/umerm/AndroidStudioProjects/ExpenseManager/app/src/main/res/layout/fragment_home.xml" value="0.22" />
-        <entry key="..\:/Users/umerm/AndroidStudioProjects/ExpenseManager/app/src/main/res/layout/fragment_profile.xml" value="0.18115942028985507" />
+        <entry key="..\:/Users/umerm/AndroidStudioProjects/ExpenseManager/app/src/main/res/layout/fragment_profile.xml" value="0.18" />
         <entry key="..\:/Users/umerm/AndroidStudioProjects/ExpenseManager/app/src/main/res/layout/fragment_statistics.xml" value="0.18115942028985507" />
         <entry key="..\:/Users/umerm/AndroidStudioProjects/ExpenseManager/app/src/main/res/layout/transaction_item.xml" value="0.22" />
+        <entry key="..\:/Users/umerm/AndroidStudioProjects/ExpenseManager/app/src/main/res/layout/transaction_item2.xml" value="0.17844202898550723" />
         <entry key="..\:/Users/umerm/AndroidStudioProjects/ExpenseManager/app/src/main/res/menu/nav_view_menu.xml" value="0.2140625" />
         <entry key="..\:/Users/umerm/AndroidStudioProjects/ExpenseManager/app/src/main/res/menu/trans_menu.xml" value="0.14" />
       </map>

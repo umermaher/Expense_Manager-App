@@ -1,19 +1,15 @@
 package com.example.expensemanager.ui.activities
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.view.View
-import android.util.Pair
 import android.app.ActivityOptions
+import android.content.Intent
+import android.os.Bundle
+import android.util.Pair
+import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.expensemanager.R
 import com.example.expensemanager.databinding.ActivityLoginBinding
-import com.example.expensemanager.models.User
-import com.example.expensemanager.utils.PrefsData
-import com.example.expensemanager.utils.getUserViewModel
-import com.example.expensemanager.utils.validateEmail
-import com.example.expensemanager.utils.validatePassword
+import com.example.expensemanager.utils.*
 import com.example.expensemanager.viewmodels.UserViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -25,7 +21,6 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.*
-import kotlinx.coroutines.tasks.await
 
 class LoginActivity : AppCompatActivity() {
     private var _binding:ActivityLoginBinding?=null
@@ -120,6 +115,7 @@ class LoginActivity : AppCompatActivity() {
                 firebaseUser?.let { user ->
 
                     PrefsData.saveUserName(this@LoginActivity,user.displayName!!)
+                    PrefsData.yesSignedInWithGoogle(this)
                     updateUI(firebaseUser)
 
 //                    GlobalScope.launch {
@@ -156,7 +152,28 @@ class LoginActivity : AppCompatActivity() {
 
     private fun hidePb() { binding.loginPb.visibility=View.GONE }
 
-    fun forgetPassword(view: View) {}
+    @OptIn(DelicateCoroutinesApi::class)
+    fun forgetPassword(view: View) {
+        if (!validateEmail(binding.loginEmailText))
+            return
+        val email = binding.loginEmailText.editText!!.text.toString()
+
+        viewModel.sendPasswordResetEmail(email)
+        viewModel.fpTask.observe(this) {
+            when (it) {
+                is Resource.Loading -> binding.loginPb.visibility = View.VISIBLE
+                is Resource.Success -> {
+                    hidePb()
+                    Toast.makeText(this,it.data,Toast.LENGTH_LONG).show()
+                }
+                is Resource.Error -> {
+                    hidePb()
+                    Toast.makeText(this,it.message,Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+
     fun register(view: View) {
         val intent=Intent(this, SignUpActivity::class.java)
 

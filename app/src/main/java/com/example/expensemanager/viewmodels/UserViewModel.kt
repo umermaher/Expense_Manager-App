@@ -17,6 +17,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.expensemanager.EmApplication
 import com.example.expensemanager.models.User
 import com.example.expensemanager.repositories.UserRepository
+import com.example.expensemanager.utils.Resource
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
@@ -27,7 +28,8 @@ import kotlin.coroutines.suspendCoroutine
 
 class UserViewModel(app: Application, private val userRepository: UserRepository): AndroidViewModel(app){
     var signInUpTask:MutableLiveData<Task<AuthResult>> = MutableLiveData()
-    var updateTask:MutableLiveData<Boolean> = MutableLiveData()
+    var updateTask:MutableLiveData<Resource<String>> = MutableLiveData()
+    val fpTask:MutableLiveData<Resource<String>> = MutableLiveData()
 
     fun handleGoogleSignInTask(completedTask: Task<GoogleSignInAccount>) = viewModelScope.launch {
         userRepository.handleGoogleSignInTask(completedTask,signInUpTask)
@@ -48,11 +50,20 @@ class UserViewModel(app: Application, private val userRepository: UserRepository
     suspend fun getCurrentUser(): User = userRepository.getCurrentUser().await().toObject(User::class.java)!!
 
     fun updateUser(user: User) = viewModelScope.launch {
+        updateTask.postValue(Resource.Loading())
         if(hasInternetConnection())
             userRepository.updateUser(user,updateTask)
         else{
-            updateTask.postValue(false)
+            updateTask.postValue(Resource.Error("No Internet Connection!"))
         }
+    }
+
+    fun sendPasswordResetEmail(email: String) = viewModelScope.launch {
+        fpTask.postValue(Resource.Loading())
+        if(hasInternetConnection()){
+            userRepository.sendPasswordResetEmail(email,fpTask)
+        }else
+            fpTask.postValue(Resource.Error("No Internet Connection!"))
     }
 
     fun hasInternetConnection():Boolean{

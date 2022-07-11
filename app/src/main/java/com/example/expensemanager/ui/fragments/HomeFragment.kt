@@ -57,7 +57,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setUpRecyclerView() = binding.homeRv.apply {
-        transactionsAdapter=TransactionsAdapter()
+        transactionsAdapter=TransactionsAdapter(requireContext())
         layoutManager=LinearLayoutManager(activity)
         adapter=transactionsAdapter
         ItemTouchHelper(getItemTouchHelperCallback()).attachToRecyclerView(this)
@@ -86,7 +86,7 @@ class HomeFragment : Fragment() {
         if(PrefsData.isFirstTime(requireContext())){
             PrefsData.saveUserName(requireContext(),user.displayName)
             PrefsData.setNotFirstTime(requireContext())
-            binding.helloTv.text="Hello, ${user.displayName}"
+            binding.helloTv.text="Hello, ${PrefsData.getUserName(requireContext())}"
         }
         transactionsAdapter.transactions = user.transactionList.sortedByDescending {
             it.createdAt
@@ -104,7 +104,6 @@ class HomeFragment : Fragment() {
         ): Boolean = true
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-            binding.homePb.visibility=View.VISIBLE
             val position=viewHolder.adapterPosition
 
             val transaction = transactionsAdapter.transactions[position]
@@ -121,19 +120,22 @@ class HomeFragment : Fragment() {
             user.balance=user.income - user.expense
 
             viewModel.updateUser(user)
-            viewModel.updateTask.observe(viewLifecycleOwner){ done ->
-                if(done){
-                    Toast.makeText(requireContext(),"Deleted!",Toast.LENGTH_SHORT).show()
-                    updateUI()
-                }else{
-                    user.transactionList.add(transaction)
-                    if(transaction.transactionType== EXPENSE)
-                        user.expense+=transaction.amount
-                    else
-                        user.income += transaction.amount
-                    user.balance=user.income - user.expense
-                    updateUI()
-                    Toast.makeText(requireContext(),"Failed to Delete!",Toast.LENGTH_LONG).show()
+            viewModel.updateTask.observe(viewLifecycleOwner){ result ->
+                when(result){
+                    is Resource.Loading -> binding.homePb.visibility=View.VISIBLE
+                    is Resource.Success -> {
+                        Toast.makeText(requireContext(),"Deleted!",Toast.LENGTH_SHORT).show()
+                        updateUI()
+                    }
+                    is Resource.Error -> {
+                        if(transaction.transactionType== EXPENSE)
+                            user.expense+=transaction.amount
+                        else
+                            user.income += transaction.amount
+                        user.balance=user.income - user.expense
+                        updateUI()
+                        Toast.makeText(requireContext(),"Failed to Delete!",Toast.LENGTH_LONG).show()
+                    }
                 }
             }
         }

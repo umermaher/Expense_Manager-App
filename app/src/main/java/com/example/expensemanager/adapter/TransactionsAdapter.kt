@@ -1,8 +1,10 @@
 package com.example.expensemanager.adapter
 
+import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -12,7 +14,7 @@ import com.example.expensemanager.models.Transaction
 import com.example.expensemanager.utils.EXPENSE
 import com.example.expensemanager.utils.TimeAgo
 
-class TransactionsAdapter() : RecyclerView.Adapter<TransactionsAdapter.ViewHolder>(){
+class TransactionsAdapter(val context: Context) : RecyclerView.Adapter<TransactionsAdapter.ViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(TransactionItemBinding.inflate(LayoutInflater.from(parent.context),parent,false))
@@ -25,6 +27,10 @@ class TransactionsAdapter() : RecyclerView.Adapter<TransactionsAdapter.ViewHolde
             transAmountTv.text=model.amount.toString()
             transCreatedAtTv.text = TimeAgo.getTimeAgo(model.createdAt)
             transTypeImage.setImageResource(if(model.transactionType== EXPENSE) R.drawable.dot_bg_2 else R.drawable.dot_bg)
+            transAmountTv.setTextColor(
+                if(model.transactionType== EXPENSE) ContextCompat.getColor(context,R.color.theme2)
+                else ContextCompat.getColor(context,R.color.theme1)
+            )
         }
     }
 

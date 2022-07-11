@@ -48,7 +48,6 @@ class AddTransactionActivity : AppCompatActivity() {
     }
 
     private fun addTransaction() {
-        binding.addTransPb.visibility= View.VISIBLE
         val transaction=Transaction(
             binding.allocateForEditText.text.toString(),
             binding.amountEditText.text.toString().toInt(),
@@ -65,17 +64,21 @@ class AddTransactionActivity : AppCompatActivity() {
         user.transactionList.add(transaction)
 
         viewModel.updateUser(user)
-        viewModel.updateTask.observe(this){
-            if(it==true){
-                hidePb()
-                val resultData=Intent()
-                resultData.putExtra(UPDATED_USER,user)
-                setResult(Activity.RESULT_OK,resultData)
-                finish()
-                Toast.makeText(this, "Done!", Toast.LENGTH_LONG).show()
-            }else {
-                hidePb()
-                Toast.makeText(this, "Failed to add transaction!!", Toast.LENGTH_LONG).show()
+        viewModel.updateTask.observe(this){ res->
+            when(res){
+                is Resource.Loading -> binding.addTransPb.visibility= View.VISIBLE
+                is Resource.Success -> {
+                    hidePb()
+                    Toast.makeText(this, res.data, Toast.LENGTH_LONG).show()
+                    val resultData=Intent()
+                    resultData.putExtra(UPDATED_USER,user)
+                    setResult(Activity.RESULT_OK,resultData)
+                    finish()
+                }
+                is Resource.Error -> {
+                    hidePb()
+                    Toast.makeText(this, res.message, Toast.LENGTH_LONG).show()
+                }
             }
         }
     }

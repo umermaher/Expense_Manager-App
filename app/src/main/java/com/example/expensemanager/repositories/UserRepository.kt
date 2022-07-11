@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.expensemanager.ui.activities.LoginActivity
 import com.example.expensemanager.models.User
+import com.example.expensemanager.utils.Resource
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
@@ -77,11 +78,19 @@ class UserRepository {
     suspend fun addUser(user: User) = usersCollection.document(user.uid).set(user)
 
     fun getCurrentUser(): Task<DocumentSnapshot> = usersCollection.document(mAuth.uid!!).get()
-    fun updateUser(user: User,task:MutableLiveData<Boolean>) {
+    fun updateUser(user: User,task:MutableLiveData<Resource<String>>) {
         usersCollection.document(user.uid).set(user).addOnSuccessListener {
-            task.postValue(true)
+            task.postValue(Resource.Success("Done"))
         }.addOnFailureListener {
-            task.postValue(false)
+            task.postValue(Resource.Error("Failed to add transaction! : ${it.message}"))
+        }
+    }
+
+    suspend fun sendPasswordResetEmail(email: String,fpTask:MutableLiveData<Resource<String>>) {
+        mAuth.sendPasswordResetEmail(email).addOnSuccessListener {
+            fpTask.postValue(Resource.Success("Link for password recovery has been sent to your email"))
+        }.addOnFailureListener {
+            fpTask.postValue(Resource.Error("No such account exist!"))
         }
     }
 

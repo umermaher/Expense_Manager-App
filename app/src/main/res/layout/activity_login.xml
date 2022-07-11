@@ -69,6 +69,7 @@
             android:layout_height="wrap_content"
             android:hint="Password"
             app:passwordToggleEnabled="true"
+            android:layout_marginTop="5sp"
             android:transitionName="@string/login_password_tran"
             app:boxStrokeWidth="0sp"
             app:startIconDrawable="@drawable/ic_lock">
