@@ -114,7 +114,7 @@ class LoginActivity : AppCompatActivity() {
                 val firebaseUser=it.result.user
                 firebaseUser?.let { user ->
 
-                    PrefsData.saveUserName(this@LoginActivity,user.displayName!!)
+                    PrefsData.saveUserData(this@LoginActivity,user.displayName!!,user.email!!)
                     PrefsData.yesSignedInWithGoogle(this)
                     updateUI(firebaseUser)
 

@@ -8,16 +8,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.expensemanager.R
+import com.example.expensemanager.adapter.TransactionsAdapter2
 import com.example.expensemanager.databinding.ChangePasswordBsBinding
 import com.example.expensemanager.databinding.FragmentProfileBinding
+import com.example.expensemanager.models.Transaction
 import com.example.expensemanager.models.User
 import com.example.expensemanager.ui.activities.LoginActivity
-import com.example.expensemanager.utils.InternetConnectivityLiveData
-import com.example.expensemanager.utils.PrefsData
-import com.example.expensemanager.utils.getUserViewModel
-import com.example.expensemanager.utils.validatePassword
+import com.example.expensemanager.utils.*
 import com.example.expensemanager.viewmodels.UserViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.ktx.auth
@@ -31,6 +31,9 @@ class ProfileFragment : Fragment() {
     private lateinit var viewModel:UserViewModel
     private lateinit var user: User
     private var signOutMsgDialog:AlertDialog?=null
+    private lateinit var incomeAdapter:TransactionsAdapter2
+    private lateinit var expenseAdapter:TransactionsAdapter2
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,6 +50,12 @@ class ProfileFragment : Fragment() {
         if(PrefsData.isSignedInWithGoogle(requireContext()))
             binding.changePasswordBtn.isEnabled=false
 
+        binding.nameTv.text=PrefsData.getUserName(requireContext())
+        binding.emailTv.text=PrefsData.getEmail(requireContext())
+
+        setUpIncomeRv()
+        setUpExpenseRv()
+
         binding.logoutBtn.setOnClickListener {
             signOut()
         }
@@ -56,6 +65,16 @@ class ProfileFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    private fun setUpIncomeRv() = binding.rvIncome.apply {
+        incomeAdapter= TransactionsAdapter2()
+        adapter=incomeAdapter
+    }
+
+    private fun setUpExpenseRv() = binding.rvExpense.apply {
+        expenseAdapter= TransactionsAdapter2()
+        adapter=expenseAdapter
     }
 
     @OptIn(DelicateCoroutinesApi::class)
@@ -71,10 +90,24 @@ class ProfileFragment : Fragment() {
 
     private fun updateUI() {
         binding.profilePb.visibility=View.GONE
-        binding.nameTv.text=user.displayName
-        binding.emailTv.text=user.email
         if(user.imageUrl.isNotEmpty())
             Glide.with(this).load(user.imageUrl).circleCrop().into(binding.userProfile)
+
+        //income recyclerView
+        val incomeList = ArrayList<Transaction>()
+        for(i in user.transactionList.indices){
+            if(user.transactionList[i].transactionType != EXPENSE)
+                incomeList.add(user.transactionList[i])
+        }
+        incomeAdapter.transactions=incomeList.toList()
+
+        //income recyclerView
+        val expenseList= ArrayList<Transaction>()
+        for(i in user.transactionList.indices){
+            if(user.transactionList[i].transactionType == EXPENSE)
+                expenseList.add(user.transactionList[i])
+        }
+        expenseAdapter.transactions=expenseList.toList()
     }
 
     private fun changePassword(){

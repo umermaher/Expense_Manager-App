@@ -1,6 +1,7 @@
 package com.example.expensemanager.ui.fragments
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -39,7 +40,7 @@ class HomeFragment : Fragment() {
 
         viewModel= getUserViewModel(this,requireActivity().application)
 
-        binding.helloTv.text="Hello, ${PrefsData.getUserName(requireContext())}"
+        binding.helloTv.text="Hello, ${trimName(PrefsData.getUserName(requireContext())?:"")}"
 
         setUpRecyclerView()
 
@@ -84,9 +85,9 @@ class HomeFragment : Fragment() {
         binding.balanceTv.text=user.balance.toString()
         binding.homePb.visibility=View.GONE
         if(PrefsData.isFirstTime(requireContext())){
-            PrefsData.saveUserName(requireContext(),user.displayName)
+            PrefsData.saveUserData(requireContext(),user.displayName,user.email)
             PrefsData.setNotFirstTime(requireContext())
-            binding.helloTv.text="Hello, ${PrefsData.getUserName(requireContext())}"
+            binding.helloTv.text="Hello, ${trimName(PrefsData.getUserName(requireContext())?:"")}"
         }
         transactionsAdapter.transactions = user.transactionList.sortedByDescending {
             it.createdAt
@@ -104,38 +105,50 @@ class HomeFragment : Fragment() {
         ): Boolean = true
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-            val position=viewHolder.adapterPosition
+            AlertDialog.Builder(requireContext())
+                .setMessage("Do you really want to delete this transaction?")
+                .setCancelable(false)
+                .setPositiveButton("Yes") { _, _ ->
+                    deleteTransaction(viewHolder.adapterPosition)
+                }.setNegativeButton("No"){_,_ ->
+                    transactionsAdapter.notifyDataSetChanged()
+                }.show()
+        }
+    }
 
-            val transaction = transactionsAdapter.transactions[position]
-            user.transactionList.remove(transaction)
+    private fun deleteTransaction(position: Int) {
+        val position = position
 
-            transactionsAdapter.transactions = user.transactionList.sortedByDescending {
-                it.createdAt
-            }.toList()
+        val transaction = transactionsAdapter.transactions[position]
+        user.transactionList.remove(transaction)
 
-            if(transaction.transactionType== EXPENSE)
-                user.expense-=transaction.amount
-            else
-                user.income -= transaction.amount
-            user.balance=user.income - user.expense
+        transactionsAdapter.transactions = user.transactionList.sortedByDescending {
+            it.createdAt
+        }.toList()
 
-            viewModel.updateUser(user)
-            viewModel.updateTask.observe(viewLifecycleOwner){ result ->
-                when(result){
-                    is Resource.Loading -> binding.homePb.visibility=View.VISIBLE
-                    is Resource.Success -> {
-                        Toast.makeText(requireContext(),"Deleted!",Toast.LENGTH_SHORT).show()
-                        updateUI()
-                    }
-                    is Resource.Error -> {
-                        if(transaction.transactionType== EXPENSE)
-                            user.expense+=transaction.amount
-                        else
-                            user.income += transaction.amount
-                        user.balance=user.income - user.expense
-                        updateUI()
-                        Toast.makeText(requireContext(),"Failed to Delete!",Toast.LENGTH_LONG).show()
-                    }
+        if (transaction.transactionType == EXPENSE)
+            user.expense -= transaction.amount
+        else
+            user.income -= transaction.amount
+        user.balance = user.income - user.expense
+
+        viewModel.updateUser(user)
+        viewModel.updateTask.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Resource.Loading -> binding.homePb.visibility = View.VISIBLE
+                is Resource.Success -> {
+                    Toast.makeText(requireContext(), "Deleted!", Toast.LENGTH_SHORT)
+                        .show()
+                    updateUI()
+                }
+                is Resource.Error -> {
+                    if (transaction.transactionType == EXPENSE)
+                        user.expense += transaction.amount
+                    else
+                        user.income += transaction.amount
+                    user.balance = user.income - user.expense
+                    updateUI()
+                    Toast.makeText(requireContext(), "Failed to Delete!", Toast.LENGTH_LONG).show()
                 }
             }
         }

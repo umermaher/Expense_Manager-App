@@ -59,7 +59,7 @@ class SignUpActivity : AppCompatActivity() {
             if(it.isSuccessful){
                 val firebaseUser=it.result.user
                 viewModel.addUser(User(firebaseUser!!.uid,email,name))
-                PrefsData.saveUserName(this,name)
+                PrefsData.saveUserData(this,name,email)
                 updateUI(it.result.user)
             }else{
                 Toast.makeText(this,"Login Failed: ${it.exception}!", Toast.LENGTH_LONG).show()

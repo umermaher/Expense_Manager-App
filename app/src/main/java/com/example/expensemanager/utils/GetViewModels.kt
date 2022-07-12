@@ -13,3 +13,11 @@ fun getUserViewModel(owner: ViewModelStoreOwner,app: Application):UserViewModel{
     val newsViewModelProviderFactory= UserViewModelProviderFactory(app,newsRepository)
     return ViewModelProvider(owner,newsViewModelProviderFactory)[UserViewModel::class.java]
 }
+fun trimName(name: String): String {
+    var value = ""
+    for(i in name.indices){
+        if(name[i]==' ') break
+        value+=name[i]
+    }
+    return value
+}

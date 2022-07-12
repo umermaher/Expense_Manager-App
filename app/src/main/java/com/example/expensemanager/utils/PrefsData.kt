@@ -20,26 +20,22 @@ object PrefsData {
         val sp=context.getSharedPreferences("myData", AppCompatActivity.MODE_PRIVATE)
         return sp.getBoolean("isSignedInWithGoogle",false)
     }
-    fun saveUserName(context: Context,name:String) {
+    fun saveUserData(context: Context,name:String,email:String) {
         val sp=context.getSharedPreferences("myData", AppCompatActivity.MODE_PRIVATE)
         val editor=sp.edit()
-        val trim=trimName(name)
-        editor.putString(USER_NAME,trim)
+//        val trim=trimName(name)
+        editor.putString(USER_NAME,name)
+        editor.putString("email",email)
         editor.apply()
-    }
-
-    private fun trimName(name: String): String {
-        var value = ""
-        for(i in name.indices){
-            if(name[i]==' ') break
-            value+=name[i]
-        }
-        return value
     }
 
     fun getUserName(context: Context): String? {
         val sp=context.getSharedPreferences("myData", AppCompatActivity.MODE_PRIVATE)
         return sp.getString(USER_NAME,"...")
+    }
+    fun getEmail(context: Context):String?{
+        val sp=context.getSharedPreferences("myData", AppCompatActivity.MODE_PRIVATE)
+        return sp.getString("email","...")
     }
     fun isFirstTime(context: Context): Boolean {
         val sp=context.getSharedPreferences("myData", AppCompatActivity.MODE_PRIVATE)
