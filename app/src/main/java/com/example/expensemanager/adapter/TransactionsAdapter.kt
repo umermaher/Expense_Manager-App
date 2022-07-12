@@ -24,7 +24,7 @@ class TransactionsAdapter(val context: Context) : RecyclerView.Adapter<Transacti
         val model = transactions[position]
         holder.binding.apply {
             transNameTv.text=model.name
-            transAmountTv.text=model.amount.toString()
+            transAmountTv.text=model.amount.toString()+" Rs."
             transCreatedAtTv.text = TimeAgo.getTimeAgo(model.createdAt)
             transTypeImage.setImageResource(if(model.transactionType== EXPENSE) R.drawable.dot_bg_2 else R.drawable.dot_bg)
             transAmountTv.setTextColor(
