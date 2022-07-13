@@ -95,18 +95,16 @@ class ProfileFragment : Fragment() {
 
         //income recyclerView
         val incomeList = ArrayList<Transaction>()
+        val expenseList= ArrayList<Transaction>()
+
         for(i in user.transactionList.indices){
             if(user.transactionList[i].transactionType != EXPENSE)
                 incomeList.add(user.transactionList[i])
-        }
-        incomeAdapter.transactions=incomeList.toList()
-
-        //income recyclerView
-        val expenseList= ArrayList<Transaction>()
-        for(i in user.transactionList.indices){
-            if(user.transactionList[i].transactionType == EXPENSE)
+            else
                 expenseList.add(user.transactionList[i])
         }
+
+        incomeAdapter.transactions=incomeList.toList()
         expenseAdapter.transactions=expenseList.toList()
     }
 

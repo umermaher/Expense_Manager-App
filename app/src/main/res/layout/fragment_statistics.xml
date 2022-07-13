@@ -10,6 +10,7 @@
         android:id="@+id/scrollView3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:overScrollMode="never"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,16 +37,17 @@
                 android:layout_marginHorizontal="20sp"
                 android:text="Let's evaluate through graphs" />
 
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="300sp"
                 android:layout_marginTop="10sp"
-                android:layout_marginHorizontal="15sp"
+                android:layout_marginHorizontal="20sp"
                 app:cardCornerRadius="10sp"
                 app:cardElevation="5sp">
 
-                <com.github.mikephil.charting.charts.BarChart
-                    android:id="@+id/transactionBarChart"
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/lineChart"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="10sp"
@@ -55,13 +57,44 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="250sp"
                 android:layout_height="250sp"
-                android:layout_margin="10sp"
+                android:layout_marginTop="20sp"
                 app:cardCornerRadius="10sp"
                 android:layout_gravity="center_horizontal"
                 app:cardElevation="5sp">
 
                 <com.github.mikephil.charting.charts.PieChart
-                    android:id="@+id/picChart"
+                    android:id="@+id/pieChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10sp"
+                    />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="300sp"
+                android:layout_marginTop="20sp"
+                android:layout_marginHorizontal="20sp"
+                app:cardCornerRadius="10sp"
+                app:cardElevation="5sp">
+
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/incomeBarChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10sp"
+                    />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="300sp"
+                android:layout_margin="20sp"
+                app:cardCornerRadius="10sp"
+                app:cardElevation="5sp">
+
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/expenseBarChart"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="10sp"
