@@ -18,7 +18,7 @@ class TransactionsAdapter2 : RecyclerView.Adapter<TransactionsAdapter2.ViewHolde
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val model=transactions[position]
         holder.binding.apply {
-            cardAmount.text=model.amount.toString()
+            cardAmount.text=model.amount.toString()+" Rs."
             cardName.text=model.name
             cardTime.text=TimeAgo.getTimeAgo(model.createdAt)
         }

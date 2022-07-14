@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import com.example.expensemanager.R
 import com.example.expensemanager.databinding.FragmentStatisticsBinding
+import com.example.expensemanager.models.Transaction
 import com.example.expensemanager.models.User
 import com.example.expensemanager.utils.EXPENSE
 import com.example.expensemanager.utils.InternetConnectivityLiveData
@@ -18,10 +19,9 @@ import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.github.mikephil.charting.utils.ColorTemplate
-import kotlinx.android.synthetic.main.fragment_statistics.view.*
 import kotlinx.coroutines.*
-import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.math.exp
 
 class StatisticsFragment : Fragment() {
     private lateinit var _binding:FragmentStatisticsBinding
@@ -66,8 +66,17 @@ class StatisticsFragment : Fragment() {
 
         lineChart()
         pieChart()
-        barChart(binding.incomeBarChart,"Income",true)
-        barChart(binding.expenseBarChart,"Expense",false)
+
+        val incomeList=ArrayList<Transaction>()
+        val expenseList=ArrayList<Transaction>()
+        for(i in user.transactionList.indices){
+            if(user.transactionList[i].transactionType== EXPENSE)
+                expenseList.add(user.transactionList[i])
+            else
+                incomeList.add(user.transactionList[i])
+        }
+        barChart(binding.incomeBarChart,"Income",incomeList)
+        barChart(binding.expenseBarChart, "Expense", expenseList)
     }
 
     private fun lineChart() {
@@ -92,12 +101,14 @@ class StatisticsFragment : Fragment() {
         incomeDataSet.valueTextColor=Color.BLACK
         incomeDataSet.valueTextSize=12F
         incomeDataSet.setDrawCircles(false)
+        incomeDataSet.mode=LineDataSet.Mode.HORIZONTAL_BEZIER
 
         val expenseDataSet = LineDataSet(expenseList,"Expense")
         expenseDataSet.color= ContextCompat.getColor(requireContext(),R.color.theme2)
         expenseDataSet.valueTextColor=Color.BLACK
         expenseDataSet.valueTextSize=12F
         expenseDataSet.setDrawCircles(false)
+        expenseDataSet.mode=LineDataSet.Mode.HORIZONTAL_BEZIER
 
         val list = ArrayList<ILineDataSet>()
         list.add(incomeDataSet)
@@ -107,7 +118,7 @@ class StatisticsFragment : Fragment() {
 
         binding.lineChart.data=lineData
         binding.lineChart.description.text="Transactions"
-        binding.lineChart.animateY(1000)
+        binding.lineChart.animateY(500)
     }
 
     private fun pieChart() {
@@ -119,7 +130,7 @@ class StatisticsFragment : Fragment() {
 
         pieDataSet.colors=colorList.toMutableList()
         pieDataSet.valueTextColor=Color.WHITE
-        pieDataSet.valueTextSize=14F
+        pieDataSet.valueTextSize=12F
 
         val pieData=PieData(pieDataSet)
         binding.pieChart.data=pieData
@@ -129,36 +140,24 @@ class StatisticsFragment : Fragment() {
         binding.pieChart.invalidate()
     }
 
-    private fun barChart(bar: BarChart,type:String,isIncome:Boolean) {
+    private fun barChart(bar: BarChart, type: String, transList: ArrayList<Transaction>) {
         val list:ArrayList<BarEntry> = ArrayList()
         var count=1
-        if(isIncome){
-            for(i in user.transactionList.indices){
-                val transaction = user.transactionList[i]
-                if(transaction.transactionType!= EXPENSE){
-                    list.add(BarEntry(count.toFloat(),transaction.amount.toFloat()))
-                    count++
-                }
-            }
-        }else{
-            for(i in user.transactionList.indices){
-                val transaction = user.transactionList[i]
-                if(transaction.transactionType == EXPENSE){
-                    list.add(BarEntry(count.toFloat(),transaction.amount.toFloat()))
-                    count++
-                }
-            }
+
+        for(i in transList.indices){
+            list.add(BarEntry(count.toFloat(),transList[i].amount.toFloat()))
+            ++count
         }
 
         val barDataSet=BarDataSet(list,type)
         barDataSet.colors=ColorTemplate.MATERIAL_COLORS.toList()
         barDataSet.valueTextColor=Color.BLACK
-        barDataSet.valueTextSize=14F
+        barDataSet.valueTextSize=12F
 
         val barData=BarData(barDataSet)
         bar.setFitBars(true)
         bar.data=barData
         bar.description.text="$type report"
-        bar.animateY(1000)
+        bar.animateY(500)
     }
 }

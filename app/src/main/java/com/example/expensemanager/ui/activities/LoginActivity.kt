@@ -6,10 +6,14 @@ import android.os.Bundle
 import android.util.Pair
 import android.view.View
 import android.widget.Toast
+import androidx.activity.ComponentActivity
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.expensemanager.R
 import com.example.expensemanager.databinding.ActivityLoginBinding
 import com.example.expensemanager.utils.*
+import com.example.expensemanager.viewmodels.SplashViewModel
 import com.example.expensemanager.viewmodels.UserViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -29,6 +33,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var auth: FirebaseAuth
     private lateinit var viewModel: UserViewModel
+    private val splashViewModel:SplashViewModel by viewModels()
     companion object {
         private const val RC_SIGN_IN=99
         const val TAG="SignInActivity"
@@ -36,8 +41,15 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen().apply {
+            setKeepOnScreenCondition{
+                splashViewModel.isLoading.value
+            }
+        }
+
         _binding=ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         configureGoogleSignIn()
 
