@@ -1,7 +1,6 @@
 package com.example.expensemanager.adapter
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -13,6 +12,8 @@ import com.example.expensemanager.databinding.TransactionItemBinding
 import com.example.expensemanager.models.Transaction
 import com.example.expensemanager.utils.EXPENSE
 import com.example.expensemanager.utils.TimeAgo
+import java.text.SimpleDateFormat
+import java.util.*
 
 class TransactionsAdapter(val context: Context) : RecyclerView.Adapter<TransactionsAdapter.ViewHolder>(){
 
@@ -25,7 +26,14 @@ class TransactionsAdapter(val context: Context) : RecyclerView.Adapter<Transacti
         holder.binding.apply {
             transNameTv.text=model.name
             transAmountTv.text=model.amount.toString()+" Rs."
-            transCreatedAtTv.text = TimeAgo.getTimeAgo(model.createdAt)
+            val calendar=Calendar.getInstance()
+            val diff = calendar.timeInMillis-model.createdAt
+            if(diff>604800000){
+                val format = SimpleDateFormat("HH:mm a, dd MMMM yyyy")
+                calendar.timeInMillis=model.createdAt
+                transCreatedAtTv.text=format.format(calendar.time)
+            }else
+                transCreatedAtTv.text = TimeAgo.getTimeAgo(model.createdAt)
             transTypeImage.setImageResource(if(model.transactionType== EXPENSE) R.drawable.dot_bg_2 else R.drawable.dot_bg)
             transAmountTv.setTextColor(
                 if(model.transactionType== EXPENSE) ContextCompat.getColor(context,R.color.theme2)
